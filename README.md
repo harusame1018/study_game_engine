@@ -6,5 +6,4 @@ npm run devで実行できます
 
 package.jsonにほかのコマンドもかいてあります
 
-仕様技術はpixijsとviteです
-
+使用技術はpixijsとviteです

@@ -6,4 +6,8 @@ export default defineConfig({
     port: 8080,
     open: true,
   },
+  build: {
+    // 本番ビルド用のターゲットを設定
+    target: 'es2022'
+  },
 });
