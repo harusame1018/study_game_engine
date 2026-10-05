@@ -1,0 +1,31 @@
+{
+  "name": "education_game_engine",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npm run dev",
+    "build": "npm run lint && tsc && vite build",
+    "lint": "eslint .",
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@pixi/react": "^8.0.5",
+    "@pixi/ui": "^2.4.1",
+    "pixi.js": "^8.8.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/node": "^26.6.4",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
+    "prettier": "^3.5.3",
+    "typescript": "~5.7.3",
+    "typescript-eslint": "^8.25.0",
+    "vite": "^6.2.0"
+  },
+  "allowScripts": {
+    "esbuild@0.25.12": true
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "title": "二次関数クエスト",
+  "questions": [
+    {
+      "question": "y=2x^2である xの変域が1<=x<=3のとき、yの変域を求めよ",
+      "choice": ["2<=y<=18","1<=y<=9","1<=y<=18"],
+      "answer": 0
+    },
+    {
+      "question": "console.logは、主に何の言語で使われるか",
+      "choice": ["ruby","javascript","python"],
+      "answer": 1
+    }
+  ]
+}
