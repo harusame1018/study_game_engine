@@ -30,7 +30,6 @@ export const generateButton = async (x:number,y:number,view_text:string) => {
 }
 
 export async function QuizRPG(app:Application,game_data:game_data_type) {
-
     const miss_question:question[] = [];
 
     let question_count = 0;
@@ -58,7 +57,7 @@ export async function QuizRPG(app:Application,game_data:game_data_type) {
     };
 
     add_slime();
-    
+
     /*
     const get_game_data? = async () => {
         const content = await fetch('/data/data.json');
@@ -102,9 +101,10 @@ export async function QuizRPG(app:Application,game_data:game_data_type) {
         playerHp -= damage;
         playerHpLabel.text = "プレイヤーHP:" + playerHp;
     }
-
+  console.log(game_data);
+  console.log(question_count);
     const question_label = new Text({
-        text:game_data?.questions[question_count]["question"]
+        text:game_data?.questions?.[question_count]?.["question"] || "問題がありません"
     })
 
     question_label.x = 630;
@@ -195,9 +195,9 @@ export async function QuizRPG(app:Application,game_data:game_data_type) {
             }
             question_count++;
             update_button(false);
-            
+
         }
-       
+
     }
 
 }
@@ -258,7 +258,7 @@ export async function QuizRPG(app:Application,game_data:game_data_type) {
     button_container.visible = false;
     judge_label_container.visible = false;
     label_container.removeChildren();
-    
+
 
     if (!is_miss) {
         const point_label = new Text({text:"正答数:" + correct_count + "/" + (question_count)});
