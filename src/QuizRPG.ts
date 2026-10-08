@@ -107,7 +107,7 @@ export async function QuizRPG(app:Application,game_data:game_data_type) {
         text:game_data?.questions?.[question_count]?.["question"] || "問題がありません"
     })
 
-    question_label.x = 630;
+    question_label.x = 330;
     question_label.y = 300;
 
     judge_label_container.addChild(question_label);
