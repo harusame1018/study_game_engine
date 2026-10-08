@@ -91,10 +91,10 @@ type formType = {
   })
 
   const page_path = window.location.pathname.substring(1);
-
+  const hash = window.location.hash;
   console.log(page_path);
 
-  if (btoa(atob(page_path)) == page_path && page_path !== "") {
+  if (btoa(atob(page_path)) == hash && hash !== "") {
     const game_data = JSON.parse(decodeURIComponent(escape(atob(page_path))));;
     console.log("questionsの本当の型:", typeof game_data);
     app.stage.addChild(play_button);
@@ -145,7 +145,7 @@ type formType = {
 
       const result_json = JSON.stringify(result, null, 2);
       const base64str = btoa(unescape(encodeURIComponent(result_json)));
-      const result_url = location.origin + "/" + base64str;
+      const result_url = location.origin + "#" + base64str;
       const url_object = document.createElement("a");
       url_object.href = result_url;
       url_object.innerHTML = "問題へ";
