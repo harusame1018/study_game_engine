@@ -23,10 +23,11 @@ type formType = {
   // Append the application canvas to the document body
   document.getElementById("pixi-container")!.appendChild(app.canvas);
 
+  const play_button = await generateButton(600,400,"プレイ！");
+
   const fileUploadForm = document.createElement("input");
   fileUploadForm.type = "file";
   fileUploadForm.accept = ".json";
-  document.body.appendChild(fileUploadForm);
 
   fileUploadForm.addEventListener("change", async (event) => {
     const target = event.target as HTMLInputElement;
@@ -37,7 +38,7 @@ type formType = {
 
     const game_data = await Assets.load({src:fileURL,format: "json",parser:"json"});
 
-    const play_button = await generateButton(600,400,"プレイ！");
+
 
     app.stage.addChild(play_button);
 
@@ -93,8 +94,20 @@ type formType = {
 
   console.log(page_path);
 
+  if (btoa(atob(page_path)) == page_path && page_path !== "") {
+    const game_data = JSON.parse(decodeURIComponent(escape(atob(page_path))));;
+    console.log("questionsの本当の型:", typeof game_data);
+    app.stage.addChild(play_button);
+    console.log(game_data);
+    play_button.onPress.connect(() => {QuizRPG(app,game_data); app.stage.removeChild(play_button);});
+
+    //document.body.removeChild(fileUploadForm);
+  }
+  if (page_path === "") {
+    document.body.appendChild(fileUploadForm);
+  }
   if (page_path === "create") {
-    document.body.removeChild(fileUploadForm);
+    //document.body.removeChild(fileUploadForm);
     document.body.appendChild(formBlock);
     document.body.appendChild(addFormButton);
     const sendButton = document.createElement("button");
@@ -131,6 +144,13 @@ type formType = {
       })
 
       const result_json = JSON.stringify(result, null, 2);
+      const base64str = btoa(unescape(encodeURIComponent(result_json)));
+      const result_url = location.origin + "/" + base64str;
+      const url_object = document.createElement("a");
+      url_object.href = result_url;
+      url_object.innerHTML = "問題へ";
+      document.body.appendChild(url_object)
+      console.log(result_url);
       const blob = new Blob([result_json], { type: "application/json" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -138,7 +158,7 @@ type formType = {
       link.download = "data.json";
 
       document.body.appendChild(link);
-      link.click();
+      //link.click();
 
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
