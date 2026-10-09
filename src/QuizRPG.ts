@@ -1,5 +1,5 @@
 
-import { Assets, Sprite,Container,Text, Application  } from "pixi.js";
+import { Assets, Sprite,Container,Text, Application, TextStyle  } from "pixi.js";
 import { FancyButton } from "@pixi/ui";
 
 await Assets.load("/assets/button/button_normal.png");
@@ -103,9 +103,12 @@ export async function QuizRPG(app:Application,game_data:game_data_type) {
     }
   console.log(game_data);
   console.log(question_count);
-    const question_label = new Text({
-        text:game_data?.questions?.[question_count]?.["question"] || "問題がありません"
-    })
+    const question_label = new Text(
+        game_data?.questions?.[question_count]?.["question"] || "問題がありません"
+    , new TextStyle({
+      wordWrap: true,
+      wordWrapWidth: 600,
+    }))
 
     question_label.x = 330;
     question_label.y = 300;
