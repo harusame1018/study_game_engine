@@ -83,6 +83,12 @@ type formType = {
   }
   questionForm.appendChild(answerInput);
 
+  const explanationInput = document.createElement("input");
+  explanationInput.type = "input";
+  explanationInput.placeholder = "解説";
+
+  questionForm.appendChild(explanationInput);
+
   const addFormButton = document.createElement("button");
   addFormButton.innerHTML = "項目を追加";
 
@@ -92,12 +98,9 @@ type formType = {
 
   const page_path = window.location.pathname.substring(1);
   const hash = window.location.hash.substring(1);
-  console.log(page_path);
   if (hash !== "") {
     const game_data = JSON.parse(decodeURIComponent(escape(atob(hash))));;
-    console.log("questionsの本当の型:", typeof game_data);
     app.stage.addChild(play_button);
-    console.log(game_data);
     play_button.onPress.connect(() => {QuizRPG(app,game_data); app.stage.removeChild(play_button);});
 
     //document.body.removeChild(fileUploadForm);
@@ -121,12 +124,12 @@ type formType = {
       const title = title_form.value;
       result["title"] = title ?? "";
       const forms = formBlock.querySelectorAll(".questionForm");
-      console.log(forms)
       forms.forEach(form => {
         const output_question = {
           "question": "",
           "choice": [] as string[],
           "answer": 0,
+          "explanation": "",
         }
 
         const question_input = form.children[0] as HTMLInputElement;
@@ -139,6 +142,8 @@ type formType = {
         output_question["choice"].push(choice_input3.value);
         const answer_input = form.children[4] as HTMLInputElement;
         output_question["answer"] = Number(answer_input.value);
+        const explanation_input = form.children[5] as HTMLInputElement;
+        output_question["explanation"] = explanation_input.value;
         result.questions.push(output_question);
       })
 
@@ -149,7 +154,6 @@ type formType = {
       url_object.href = result_url;
       url_object.innerHTML = "問題へ";
       document.body.appendChild(url_object)
-      console.log(result_url);
       const blob = new Blob([result_json], { type: "application/json" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");

@@ -14,7 +14,8 @@ type game_data_type = {
 type question = {
     "question": string,
     "choice": Array<string>,
-    "answer": number
+    "answer": number,
+    "explanation": string,
 }
 
 export const generateButton = async (x:number,y:number,view_text:string) => {
@@ -52,7 +53,6 @@ export async function QuizRPG(app:Application,game_data:game_data_type) {
         const slime = new Sprite(texture);
         app.stage.addChild(slime);
         slime.x = 1400;
-        console.log(app.screen.width,app.screen.height);
         slime.y = app.screen.height / 2 - 256;
     };
 
@@ -66,7 +66,6 @@ export async function QuizRPG(app:Application,game_data:game_data_type) {
     };
 
     const game_data? = await get_game_data?();
-    console.log(game_data?)
     */
     // ========Label作成とか========
 
@@ -101,8 +100,7 @@ export async function QuizRPG(app:Application,game_data:game_data_type) {
         playerHp -= damage;
         playerHpLabel.text = "プレイヤーHP:" + playerHp;
     }
-  console.log(game_data);
-  console.log(question_count);
+
     const question_label = new Text(
         game_data?.questions?.[question_count]?.["question"] || "問題がありません"
     , new TextStyle({
@@ -110,10 +108,25 @@ export async function QuizRPG(app:Application,game_data:game_data_type) {
       wordWrapWidth: 600,
     }))
 
+    
     question_label.x = 330;
     question_label.y = 300;
 
     judge_label_container.addChild(question_label);
+
+    const explanation_label = new Text(
+        game_data?.questions?.[question_count]?.["explanation"] || "解説はありません",
+        new TextStyle({
+            wordWrap:true,
+            wordWrapWidth: 600,
+        })
+    )
+
+    explanation_label.x = 440;
+    explanation_label.y = 500;
+
+    explanation_label.visible = false;
+    judge_label_container.addChild(explanation_label);
 
     const title_label = new Text({
         text:game_data?.title,
@@ -156,41 +169,47 @@ export async function QuizRPG(app:Application,game_data:game_data_type) {
     if (!button_flag) {
         button_flag = true;
         if (is_miss) {
-            const choice = miss_question[miss_question_count]["choice"];
             const answer_index = miss_question[miss_question_count]["answer"];
 
-            if (choice[index] === choice[answer_index]) {
+            if (index === answer_index) {
                 correct_label.visible = true;
+                explanation_label.visible = true;
                 await sleep(2000);
                 correct_label.visible = false;
+                explanation_label.visible = false
                 button_flag = false;
             } else {
                 failed_label.visible = true;
                 answer_label.visible = true;
+                explanation_label.visible = true;
                 await sleep(2000);
                 failed_label.visible = false;
                 answer_label.visible = false;
+                explanation_label.visible = false;
                 button_flag = false;
             }
             miss_question_count++;
             update_button(true);
         } else {
-            const choice = game_data?.questions[question_count]["choice"]
             const answer_index = game_data?.questions[question_count]["answer"];
 
-            if (choice[index] === choice[answer_index]) {
+            if (index == answer_index) {
                 correct_label.visible = true;
+                explanation_label.visible = true;
                 correct_count++;
                 await sleep(2000);
                 correct_label.visible = false;
+                explanation_label.visible = false;
                 button_flag = false;
                 updateSlimeHP(attackPower);
             }
             else {
                 failed_label.visible = true;
+                explanation_label.visible = true;
                 answer_label.visible = true;
                 await sleep(2000);
                 failed_label.visible = false;
+                explanation_label.visible = false;
                 answer_label.visible = false;
                 button_flag = false;
                 updatePlayerHp(10);
@@ -279,7 +298,6 @@ export async function QuizRPG(app:Application,game_data:game_data_type) {
         label_container.addChild(result_label)
 
         if (miss_question.length !== 0) {
-            console.log("ミスがあるよ！");
             answerButton1.onPress.disconnectAll();
             answerButton2.onPress.disconnectAll();
             answerButton3.onPress.disconnectAll();
