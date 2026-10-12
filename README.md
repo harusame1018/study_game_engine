@@ -1,5 +1,10 @@
 ゲームと教育システムをむすびつけると面白のでは？
 
+## デモリンク
+[デモ](https://study-game-engine.onrender.com/)
+
+[問題作成デモ](https://study-game-engine.onrender.com/create)
+
 npm run devで実行できます
 
 package.jsonにほかのコマンドもかいてあります
@@ -14,11 +19,10 @@ package.jsonにほかのコマンドもかいてあります
 ## どんな問題が作れるのか
 三択問題しか作れません😭
 
-## 今後の課題
+## 今後の課題（コントリビューター大募集！）
  - [ ] ゲームという感じが薄いので、ゲーム感を出す
  - [ ] UI/UX改善
  - [ ] ゲームテンプレート追加
  - [ ] 問題の範囲拡大（三択以外）
 
-## デモリンク
-[デモ](https://study-game-engine.onrender.com/)
+
